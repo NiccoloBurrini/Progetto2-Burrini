@@ -30,23 +30,26 @@ public class Server {
 
             client = server.accept();
 
-            in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            out = new PrintWriter(client.getOutputStream(), true);
+            while (true) {
+                in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                out = new PrintWriter(client.getOutputStream(), true);
 
-            System.out.println("Client connesso sulla porta: " + port);
-            String stringaRicevuta = in.readLine();
+                System.out.println("Client connesso sulla porta: " + port);
+                String stringaRicevuta = in.readLine();
+                System.out.println("Client: " + stringaRicevuta);
+                out.println(stringaRicevuta.toUpperCase());
 
-            if (stringaRicevuta.equalsIgnoreCase("BYE") || stringaRicevuta == null) {
-                out.println("Connessione al server chiusa");
-                System.out.println("Connessione chiusa");
-                client.close();
-                in.close();
-                out.close();
+                if (stringaRicevuta.equalsIgnoreCase("BYE") || stringaRicevuta == null) {
+                    out.println("Connessione al server chiusa");
+                    System.out.println("Connessione chiusa");
+                    client.close();
+                    in.close();
+                    out.close();
+                    break;
+
+                }
 
             }
-
-            System.out.println("Client: " + stringaRicevuta);
-            out.println(stringaRicevuta.toUpperCase());
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

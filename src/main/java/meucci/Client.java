@@ -2,6 +2,7 @@ package meucci;
 
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 public class Client {
 
@@ -9,7 +10,8 @@ public class Client {
     String serverAddress;
 
     Socket client;
-    BufferedReader stdIn, in;
+    BufferedReader in;
+    Scanner stdIn;
     PrintWriter out;
 
     public Client(String serverAddress, int serverPort) {
@@ -24,7 +26,7 @@ public class Client {
 
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             out = new PrintWriter(client.getOutputStream(), true);
-            stdIn = new BufferedReader(new InputStreamReader(System.in));
+            stdIn = new Scanner(System.in);
 
             System.out.println("Connesso al server con IP: " + serverAddress + ":" + serverPort);
 
@@ -46,12 +48,11 @@ public class Client {
 
         try {
             while (true) {
-                userInput = stdIn.readLine();
+                userInput = stdIn.nextLine();
+                out.println(userInput);
                 if (userInput.equalsIgnoreCase("BYE")) {
-                    out.println(userInput);
                     break;
                 }
-                out.println(userInput);
                 System.out.println("Server: " + in.readLine());
             }
             System.out.println("Connessione al server chiusa");
@@ -60,7 +61,7 @@ public class Client {
             client.close();
 
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 
