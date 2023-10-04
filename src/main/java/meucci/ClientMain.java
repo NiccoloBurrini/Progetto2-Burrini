@@ -6,7 +6,7 @@ public class ClientMain {
         Client client = new Client("localhost", 6789);
         client.connect();
 
-        while (true)
-            client.communicate();
+        
+        client.communicate();
     }
 }

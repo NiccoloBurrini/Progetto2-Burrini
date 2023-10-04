@@ -21,20 +21,19 @@ public class Server {
         try {
             server = new ServerSocket(port);
 
+        } catch (IOException e) {
+        }
+    }
+
+    public void communicate() {
+        try {
+
             client = server.accept();
 
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             out = new PrintWriter(client.getOutputStream(), true);
 
             System.out.println("Client connesso sulla porta: " + port);
-
-        } catch (IOException e) {
-        }
-    }
-
-    public void communicate() {
-
-        try {
             String stringaRicevuta = in.readLine();
 
             if (stringaRicevuta.equalsIgnoreCase("BYE") || stringaRicevuta == null) {
